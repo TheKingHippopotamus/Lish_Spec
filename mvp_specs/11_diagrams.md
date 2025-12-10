@@ -11,7 +11,7 @@ flowchart TD
     F --> G[Apple Pay Checkout]
     G --> H[Order Confirmation]
     H --> I[Order Details/Tracking]
-    B -->|Empty/No results| B1[Empty State]
+    B -->|No products| B1[Empty State: friendly no-results UI with reset filters/refresh CTA]
 ```
 
 ## User Flow (Seller Upload)
