@@ -140,14 +140,19 @@
   - Firebase services configuration
   - Rapid development approach
 
-## Quick Start
+### Visual Documentation
 
-1. Start with **[00_overview.md](mvp_specs/00_overview.md)** to understand the project scope
-2. Review **[01_architecture.md](mvp_specs/01_architecture.md)** for system design
-3. Check **[08_stack_options.md](mvp_specs/08_stack_options.md)** to choose your tech stack
-4. Follow the appropriate execution plan:
-   - **[09_execution_plan_aws.md](mvp_specs/09_execution_plan_aws.md)** for AWS implementation
-   - **[10_execution_plan_firebase.md](mvp_specs/10_execution_plan_firebase.md)** for Firebase implementation
+- **[11_diagrams.md](mvp_specs/11_diagrams.md)** - System Diagrams
+  - User flow diagrams (buyer and seller)
+  - System architecture diagram (AWS control-first)
+  - Upload & media flow sequence diagram
+  - Chat flow (admin relay) sequence diagram
+  - Payments & orders flow (Apple Pay via Stripe) sequence diagram
+  - All diagrams in Mermaid format for easy viewing
+
+
+
+
 
 ## Key Features (MVP)
 
