@@ -18,7 +18,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[Signed In Seller] --> B[Upload Item]
-    B --> C[Pick Images (<=5)]
+    B --> C["Pick Images (max 5)"]
     C --> D[Fill Required Fields]
     D --> E[Publish Product]
     E --> F[Product Active in Feed]
@@ -86,7 +86,7 @@ sequenceDiagram
     App->>API: Request signed URL (mime/size)
     API->>S3: Generate pre-signed PUT
     API-->>App: {url, key}
-    App->>S3: PUT image (<=5)
+    App->>S3: PUT image (max 5)
     App->>API: Create Product {fields, mediaKeys}
     API->>DB: Save product + media refs
     API-->>App: Product created/published
