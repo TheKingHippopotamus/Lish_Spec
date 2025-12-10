@@ -1,10 +1,82 @@
+
+# LISH MVP Plan (Presentation)
+
+## 1. What We’re Building
+- iOS-first sustainable fashion marketplace MVP with modern UX.
+- Core flows: auth (email + Apple), infinite feed, product detail, seller upload (<=5 imgs), admin-relay chat, Apple Pay checkout, order status, basic notifications.
+- Excluded now: ratings/reviews, follows/profiles, AI/similar items, complex filters, product video, advanced logistics/non-Apple processors.
+
+## 2. Users & Principles
+- Target: second-hand fashion buyers/sellers (16–50), want curated, modern, safe experience.
+- Safety: no direct buyer-seller chat; minimal PII; admin-mediated interactions.
+- Speed vs control: two stack paths (AWS/control-first vs Firebase/speed-first).
+
+## 3. Architecture Snapshot (default)
+- Frontend: React Native (TS), React Query, Navigation; Stripe Apple Pay; WS or polling chat.
+- Backend: Node TS (Fastify/Nest) modular services: auth, catalog, media, orders/payments, chat, notifications, admin.
+- Data: Mongo (users, products, mediaAssets, carts, orders, chatThreads/messages, events/logs).
+- Media: S3 + CloudFront; signed uploads, mime/size caps.
+- Payments: Stripe Payment Intents (Apple Pay), webhook confirmation.
+- Observability: Sentry, structured logs, basic alerts.
+
+## 4. Data Highlights
+- Products: seller, media refs (<=5), category/size/condition/price, status.
+- Orders: items with priceAtPurchase, Stripe intent IDs, order/payment status.
+- Chat: threads + messages with senderRole (buyer/seller/admin); audit log.
+- Indexes: products by status+createdAt, seller; chats by thread+createdAt; orders by user; users unique email/username/appleSub.
+
+## 5. MVP Feature Checklist
+- Auth: email/password, Apple ID, JWT/refresh, username capture.
+- Feed: cursor pagination, basic filters (category/size/gender/condition/material/style).
+- Product page: gallery (<=5), description, price, seller label, add to cart, ask via LISH.
+- Upload: picker cap 5, required fields (category, size, price, quality note), publish.
+- Chat: admin relay, no media, PII guard.
+- Cart/Checkout: cart CRUD, Apple Pay sheet, order create/track, receipt.
+- Notifications: in-app; push if time.
+
+## 6. Stack Options
+- Frontend: Bare RN (control) vs Expo (faster, needs custom dev client for Apple Pay).
+- Backend: Node (Fastify/Nest) vs Firebase Functions vs AWS Lambda via SST/Serverless.
+- Data: Mongo (default) vs Postgres vs Firestore.
+- Hosting: AWS (default) vs Firebase vs Render/Fly.
+- Chat: WS vs polling vs Firestore realtime (if Firebase).
+- Admin UI: minimal web vs CLI vs Retool-like.
+
+## 7. Execution Plan — AWS / Control-First (Weeks)
+1) Foundations/infra: repos, CI, IaC (API GW+Lambda or ECS), S3/CF, Mongo, Stripe webhook stub, Sentry/logging.
+2) Auth + Feed: auth routes, Apple verify, rate limits; feed API + filters; RN auth + feed.
+3) Product + Cart shell: product detail; cart endpoints + UI shell.
+4) Uploads: signed URLs, validations; RN upload/publish.
+5) Chat: WS/polling, threads/messages, admin role, RN chat.
+6) Payments/Orders: PaymentIntent, webhook, order status; RN Apple Pay + order detail.
+7) QA/Launch: E2E, perf, analytics, seeds, TestFlight, go/no-go.
+
+## 8. Execution Plan — Firebase / Speed-First (Weeks)
+1) Firebase projects, Auth (email/Apple), Firestore/Storage/Functions, rules skeleton; app shell.
+2) Auth + Feed: login/signup, Firestore feed w/ pagination+filters; indexes.
+3) Product + Cart shell: product detail; cart client or Firestore doc.
+4) Uploads: Storage upload rules, media metadata in Firestore; product create/publish.
+5) Chat: Firestore threads/messages realtime; admin role; RN chat.
+6) Payments/Orders: Function for PaymentIntent, webhook Function, order docs; RN Apple Pay + order detail.
+7) QA/Launch: E2E, perf (queries/storage sizes), analytics/crash, seeds, TestFlight.
+
+## 9. Security/Quality
+- Validation everywhere, rate limits (auth/chat/uploads), JWT rotation.
+- PII guard in chat; signed uploads; Stripe webhook verification; audit logs.
+- Tests: unit, integration, E2E happy paths (login, feed→product→chat/cart→Apple Pay, upload).
+- Perf: feed indexes, CDN for images, chat reconnect/backoff.
+
+## 10. Decisions to Make (when ready)
+- Stack path: AWS/control-first vs Firebase/speed-first (or Render/Fly middle-ground).
+- Frontend flavor: bare RN vs Expo (custom dev client for Apple Pay if Expo).
+- Chat transport: WS vs polling initial.
+- Admin surface: minimal web vs CLI vs tooling.
+
+
+
+----------------------------------------------------------------------------------------
 # LISH MVP Specifications
-
-This repository contains the complete MVP specifications for LISH, an iOS-first sustainable fashion marketplace.
-
-## Documentation Structure
-
-### Core Specifications
+### Core Specifications 
 
 - **[00_overview.md](mvp_specs/00_overview.md)** - MVP Overview
   - Project goals and scope
